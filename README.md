@@ -14,7 +14,17 @@ cctv를 통해 주변 지역의 침수를 감지하면 건물 내의 인원들�
 3. Transfer Learning & Fine tuning ResNet50
 4. Resnet50 Fine tuning을 적용
 5. 오작동 방지를 위한 기상청 날씨 크롤링
-6. 웹캠을 사용하여 실시간 이미지 분석
+6. 웹캠을 사용하여 실시간 이미지 분석<br/>
+   
+
+- 하드웨어 : 아두이노 우노, 서보모터, 피에조부저, GPU가 있는 PC
+- 소프트웨어 : Arduino IDE, Python
+- 과제 설계목표
+  - 실시간 강수량을 받아올 수 있도록 함.
+  - 침수, 비, 이상없음 3개의 클래스로 분류하도록 함.
+  - 아두이노를 사용해 실제로 차수막이 올라가도록 함.<br/><br/>
+ 
+  
 
 > 모델 학습 부분은 [Image_classification_pipeline_Project](https://github.com/inhovation97/Image_classification_pipeline_Project.git)의 소스코드를 수정하여 사용하였습니다.
 
@@ -73,18 +83,26 @@ Data의 양이 적어 transfer learning을 하였다.
 6. Flood count가 20 이상이면 차수막을 올린다.
 7. 사용자가 차수막을 내리기 전까지 작동한다.
 
+> - flood count 사용 이유
+> Flood count를 사용하여 모델이 잘못 인식했을 때 차수막이 바로 작동되는 오작동을 줄이기 위해 차수막 작동까지 20초의 count를 주었다.
+
 <img src="https://github.com/zoo3323/Flood_detect/assets/95582592/946c611a-f84d-4a80-9ffe-1c852c6b7f1d" width="500" height="500">
 
 ## 결과물 형태
 1. 오작동 방지를 위해 도시를 입력받고 기상청 날씨누리 홈페이지에서 실시간 강수량을 측정해 시간당 강수량이 30mm 이상일 때부터 비, 침수를 감지한다.
+
+> - 강수량 30mm 이상 설정 이유 <br/>
+>손해보험업계에 따르면 현대해상 교통기후환경연구소가 2006년부터 2012년까지 7년간 서울 강남구에서 발생한 차량 침수 사고를 분석했더니 차량 침수 사고의 56.3%가 시간당 강수량 35㎜ 이상일 때 일어났다.
+>특히, 시간당 강수량이 55~60㎜ 일 때 침수 사고 확률이 가장 높았다.
 ![기상청](https://github.com/zoo3323/Flood_detect/assets/95582592/8aa65e37-e7d5-445e-9aa6-905cff5f46f7)
 
-2. 침수가 아닌 이미지를 감지하면 이상없음을 출력한다.
+3. 침수가 아닌 이미지를 감지하면 이상없음을 출력한다.
 ![이상없음](https://github.com/zoo3323/Flood_detect/assets/95582592/14132ef7-4853-4297-909b-778b71a349cf)
 
-3. 비가오는 이미지를 인식하여 비가와도 침수로 인식하지 않는다.
+4. 비가오는 이미지를 인식하여 비가와도 침수로 인식하지 않는다.
 ![비감지](https://github.com/zoo3323/Flood_detect/assets/95582592/223a07cd-a775-4994-9534-429c45a17c60)
 
 파이썬 시리얼 통신으로 값을 받아 피에조부저와 서보모터가 작동하도록 최종 형태를 만들었다.
 
 ![결과](https://github.com/zoo3323/Flood_detect/assets/95582592/adf803bc-60b6-492c-9bb7-99d098ee337d)
+
